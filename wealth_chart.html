@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Median Household Wealth by Age & Financial Well-Being</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0e17;
+    --surface: #1a1927;
+    --text: #fffffe;
+    --muted: #a7a9be;
+    --accent1: #ff8906;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Georgia, serif;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; }
+  header { margin-bottom: 32px; }
+
+  h1 {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    line-height: 1.25;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.04em;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .controls span {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  button {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted);
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    transition: all 0.15s;
+  }
+  button:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+  button.active { background: var(--accent1); border-color: var(--accent1); color: #000; font-weight: 600; }
+
+  .chart-wrap {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 28px 28px 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .chart-body {
+    display: flex;
+    height: 380px;
+  }
+
+  .y-axis {
+    width: 64px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 36px;
+  }
+
+  .y-tick {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-align: right;
+    padding-right: 8px;
+    font-family: Arial, sans-serif;
+  }
+
+  .chart-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .plot-area {
+    flex: 1;
+    position: relative;
+  }
+
+  .grid-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .groups-row {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 0 4px;
+  }
+
+  .group {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 100%;
+  }
+
+  .bar-wrap {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 2px 2px 0 0;
+    transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s;
+    height: 0;
+  }
+
+  .bar:hover { filter: brightness(1.25); }
+  .bar.dimmed { opacity: 0.15; }
+
+  .x-axis {
+    height: 36px;
+    display: flex;
+    gap: 8px;
+    padding: 0 4px;
+  }
+
+  .x-label {
+    flex: 1;
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-align: center;
+    padding-top: 7px;
+    font-family: Arial, sans-serif;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    line-height: 1.2;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 20px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 3px;
+    transition: background 0.15s, opacity 0.2s;
+  }
+  .legend-item:hover { background: rgba(255,255,255,0.05); }
+  .legend-item.dimmed { opacity: 0.3; }
+
+  .swatch { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+  .legend-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+  }
+
+  .source {
+    margin-top: 14px;
+    font-size: 0.65rem;
+    color: rgba(167,169,190,0.4);
+    font-family: Arial, sans-serif;
+  }
+
+  .tooltip {
+    position: fixed;
+    background: #252437;
+    border: 1px solid rgba(255,255,255,0.14);
+    padding: 9px 13px;
+    border-radius: 7px;
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+    z-index: 999;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+  }
+  .tooltip.show { opacity: 1; }
+  .tt-group { color: var(--muted); margin-bottom: 2px; }
+  .tt-series { color: #ddd; margin-bottom: 4px; }
+  .tt-value { font-size: 1rem; font-weight: 700; color: var(--accent1); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Median Household Wealth by Age &amp; Financial Well-Being Score</h1>
+    <p class="subtitle">CFPB Financial Well-Being Scale · Values in USD</p>
+  </header>
+
+  <div class="controls">
+    <span>Group by</span>
+    <button class="active" id="btnAge" onclick="setGrouping('age')">Age Group</button>
+    <button id="btnScore" onclick="setGrouping('score')">Well-Being Score</button>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-body">
+      <div class="y-axis" id="yAxis"></div>
+      <div class="chart-right">
+        <div class="plot-area" id="plotArea"></div>
+        <div class="x-axis" id="xAxis"></div>
+      </div>
+    </div>
+    <div class="legend" id="legend"></div>
+    <p class="source">Source: CFPB Financial Well-Being in America</p>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip">
+  <div class="tt-group" id="ttGroup"></div>
+  <div class="tt-series" id="ttSeries"></div>
+  <div class="tt-value" id="ttValue"></div>
+</div>
+
+<script>
+  var SCORES = ['Low (0-37)', 'Med-Low (38-49)', 'Med-High (50-57)', 'High (58-67)', 'Very High (68-100)'];
+  var AGES   = ['18-34', '35-49', '50-64', '65+', 'All Adults'];
+  var COLORS = ['#2de2e6', '#818cf8', '#ff8906', '#f25f4c', '#a3e635'];
+
+  // DATA[scoreIndex][ageIndex]
+  var DATA = [
+    [3100,   10000,  20000,  35000,  8018],
+    [7000,   27000,  50000,  45700,  20300],
+    [18500,  103000, 190400, 139757, 81200],
+    [60000,  245000, 333000, 401000, 232000],
+    [86000,  339000, 663000, 895000, 610000]
+  ];
+
+  var grouping = 'age';
+  var highlighted = null;
+
+  function fmt(v) {
+    if (v >= 1000000) return '$' + (v / 1000000).toFixed(2) + 'M';
+    if (v >= 1000)    return '$' + Math.round(v / 1000) + 'K';
+    return '$' + v;
+  }
+
+  function setGrouping(g) {
+    grouping = g;
+    document.getElementById('btnAge').className   = g === 'age'   ? 'active' : '';
+    document.getElementById('btnScore').className = g === 'score' ? 'active' : '';
+    highlighted = null;
+    render();
+  }
+
+  function makeGetValue(grp) {
+    if (grp === 'age') {
+      return function(g, s) { return DATA[s][g]; };
+    } else {
+      return function(g, s) { return DATA[g][s]; };
+    }
+  }
+
+  function render() {
+    var groupLabels, seriesLabels, getValue;
+    var numGroups, numSeries;
+
+    getValue = makeGetValue(grouping);
+
+    if (grouping === 'age') {
+      groupLabels  = AGES;
+      seriesLabels = SCORES;
+      numGroups    = AGES.length;
+      numSeries    = SCORES.length;
+    } else {
+      groupLabels  = SCORES.map(function(s) { return s.split(' (')[0]; });
+      seriesLabels = AGES;
+      numGroups    = SCORES.length;
+      numSeries    = AGES.length;
+    }
+
+    // Find max
+    var maxVal = 0;
+    for (var g = 0; g < numGroups; g++) {
+      for (var s = 0; s < numSeries; s++) {
+        var v = getValue(g, s);
+        if (v > maxVal) maxVal = v;
+      }
+    }
+
+    var mag     = Math.pow(10, Math.floor(Math.log10(maxVal)));
+    var niceMax = Math.ceil(maxVal / mag) * mag;
+    var TICKS   = 5;
+
+    // Y axis
+    var yAxis = document.getElementById('yAxis');
+    yAxis.innerHTML = '';
+    for (var i = TICKS; i >= 0; i--) {
+      var tick = document.createElement('div');
+      tick.className   = 'y-tick';
+      tick.textContent = fmt((niceMax / TICKS) * i);
+      yAxis.appendChild(tick);
+    }
+
+    // Plot area
+    var plotArea = document.getElementById('plotArea');
+    plotArea.innerHTML = '';
+
+    // Grid lines
+    for (var i = 0; i <= TICKS; i++) {
+      var line = document.createElement('div');
+      line.className  = 'grid-line';
+      line.style.bottom = (i / TICKS * 100) + '%';
+      plotArea.appendChild(line);
+    }
+
+    // Groups row
+    var groupsRow = document.createElement('div');
+    groupsRow.className = 'groups-row';
+
+    var tooltip = document.getElementById('tooltip');
+
+    for (var g = 0; g < numGroups; g++) {
+      var group = document.createElement('div');
+      group.className = 'group';
+
+      for (var s = 0; s < numSeries; s++) {
+        var val  = getValue(g, s);
+        var pct  = (val / niceMax * 100).toFixed(3);
+        var color = COLORS[s % COLORS.length];
+
+        var barWrap = document.createElement('div');
+        barWrap.className = 'bar-wrap';
+
+        var bar = document.createElement('div');
+        bar.className = 'bar' + (highlighted !== null && highlighted !== s ? ' dimmed' : '');
+        bar.style.background = color;
+        bar.style.height = '0%';
+
+        // Animate height
+        (function(el, p) {
+          setTimeout(function() { el.style.height = p + '%'; }, 60);
+        })(bar, pct);
+
+        // Tooltip
+        (function(gl, sl, vl) {
+          barWrap.addEventListener('mouseenter', function() {
+            document.getElementById('ttGroup').textContent  = gl;
+            document.getElementById('ttSeries').textContent = sl;
+            document.getElementById('ttValue').textContent  = '$' + vl.toLocaleString();
+            tooltip.className = 'tooltip show';
+          });
+          barWrap.addEventListener('mousemove', function(e) {
+            tooltip.style.left = (e.clientX + 16) + 'px';
+            tooltip.style.top  = (e.clientY - 52) + 'px';
+          });
+          barWrap.addEventListener('mouseleave', function() {
+            tooltip.className = 'tooltip';
+          });
+        })(
+          grouping === 'age' ? 'Age ' + groupLabels[g] : groupLabels[g],
+          grouping === 'age' ? SCORES[s] : 'Age ' + AGES[s],
+          val
+        );
+
+        barWrap.appendChild(bar);
+        group.appendChild(barWrap);
+      }
+
+      groupsRow.appendChild(group);
+    }
+
+    plotArea.appendChild(groupsRow);
+
+    // X axis
+    var xAxis = document.getElementById('xAxis');
+    xAxis.innerHTML = '';
+    for (var g = 0; g < numGroups; g++) {
+      var lbl = document.createElement('div');
+      lbl.className   = 'x-label';
+      lbl.textContent = groupLabels[g];
+      xAxis.appendChild(lbl);
+    }
+
+    // Legend
+    var legend = document.getElementById('legend');
+    legend.innerHTML = '';
+    for (var s = 0; s < numSeries; s++) {
+      var item = document.createElement('div');
+      item.className = 'legend-item' + (highlighted !== null && highlighted !== s ? ' dimmed' : '');
+
+      var sw = document.createElement('div');
+      sw.className      = 'swatch';
+      sw.style.background = COLORS[s % COLORS.length];
+
+      var lbl2 = document.createElement('div');
+      lbl2.className   = 'legend-label';
+      lbl2.textContent = seriesLabels[s];
+
+      item.appendChild(sw);
+      item.appendChild(lbl2);
+
+      (function(idx) {
+        item.addEventListener('click', function() {
+          highlighted = (highlighted === idx) ? null : idx;
+          render();
+        });
+      })(s);
+
+      legend.appendChild(item);
+    }
+  }
+
+  render();
+</script>
+</body>
+</html>
