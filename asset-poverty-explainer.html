@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asset Poverty: A Primer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #1a1a18;
+    background: #f7f5ef;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .masthead {
+    border-top: 3px solid #1a1a18;
+    border-bottom: 1px solid #1a1a18;
+    padding: 20px 0 18px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .masthead-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #5a5a52;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #1a1a18;
+    margin-bottom: 10px;
+  }
+
+  .deck {
+    font-size: 19px;
+    font-weight: 300;
+    font-style: italic;
+    color: #3d3d37;
+    max-width: 600px;
+    line-height: 1.5;
+    margin-bottom: 36px;
+    border-left: 3px solid #c9a84c;
+    padding-left: 18px;
+  }
+
+  .byline {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888880;
+    margin-bottom: 40px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #ccc9be;
+    margin: 32px 0;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a18;
+    margin-bottom: 12px;
+    margin-top: 36px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  a {
+    color: #8b5e1a;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover { color: #c9a84c; }
+
+  .pullquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.4;
+    color: #1a1a18;
+    border-top: 2px solid #1a1a18;
+    border-bottom: 1px solid #ccc9be;
+    padding: 20px 0;
+    margin: 36px 0;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: #ccc9be;
+    border: 1px solid #ccc9be;
+    margin: 32px 0;
+  }
+
+  .stat-cell {
+    background: #f7f5ef;
+    padding: 20px 18px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #1a1a18;
+    line-height: 1;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #6a6a62;
+    font-weight: 400;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 28px 0;
+  }
+
+  @media (max-width: 580px) {
+    .two-col { grid-template-columns: 1fr; gap: 0; }
+    body { padding: 32px 20px 60px; }
+  }
+
+  .definition-box {
+    background: #1a1a18;
+    color: #f7f5ef;
+    padding: 24px 28px;
+    margin: 32px 0;
+    border-radius: 2px;
+  }
+
+  .definition-box .def-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #c9a84c;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .definition-box p {
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 300;
+    color: #e8e5dd;
+    margin-bottom: 0;
+    line-height: 1.65;
+  }
+
+  .key-sources {
+    background: #eeeade;
+    padding: 24px 28px;
+    margin: 32px 0;
+    border-left: 4px solid #c9a84c;
+  }
+
+  .key-sources h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-style: normal;
+    color: #1a1a18;
+  }
+
+  .key-sources ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .key-sources li {
+    font-size: 14px;
+    font-weight: 300;
+    padding: 9px 0;
+    border-bottom: 1px solid #d6d2c5;
+    line-height: 1.5;
+  }
+
+  .key-sources li:last-child { border-bottom: none; }
+
+  .source-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #c9a84c;
+    color: #1a1a18;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .footer-rule {
+    border: none;
+    border-top: 3px solid #1a1a18;
+    margin: 48px 0 20px;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: #888880;
+    letter-spacing: 0.04em;
+  }
+
+  .drop-cap::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.2em;
+    font-weight: 700;
+    float: left;
+    line-height: 0.78;
+    margin-right: 8px;
+    margin-top: 6px;
+    color: #1a1a18;
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <span class="masthead-label">Policy Primer &nbsp;·&nbsp; Wealth &amp; Economic Security</span>
+  <span class="masthead-label">Reference Document</span>
+</div>
+
+<h1>Asset Poverty</h1>
+
+<p class="deck">Measuring what people own—not just what they earn—reveals a distinct and often hidden dimension of economic insecurity.</p>
+
+<p class="byline">Key scholars: Haveman &amp; Wolff &nbsp;·&nbsp; Gibson-Davis &nbsp;·&nbsp; Sherraden &nbsp;·&nbsp; Oliver &amp; Shapiro</p>
+
+<hr class="divider">
+
+<p class="drop-cap">Income poverty measures what flows into a household each month. Asset poverty measures what a household can fall back on when that flow stops. The two concepts overlap but frequently diverge—and ignoring assets leaves a significant share of economic vulnerability unmeasured.</p>
+
+<div class="definition-box">
+  <div class="def-label">Core definition</div>
+  <p>A household is <strong style="color:#c9a84c;">asset poor</strong> if the wealth it holds is insufficient to sustain basic needs at the poverty level for a defined period—typically three months—in the absence of any income.</p>
+</div>
+
+<p>This framework has been developed and refined across a substantial research literature (Haveman &amp; Wolff, 2004; Oliver &amp; Shapiro, 1995). Without an adequate asset buffer, even a temporary income shock—job loss, illness, an unexpected bill—can produce lasting harm that income statistics never capture.</p>
+
+<div class="stat-row">
+  <div class="stat-cell">
+    <span class="stat-number">~25%</span>
+    <span class="stat-label">U.S. households estimated asset poor (2001, Haveman &amp; Wolff)</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-number">2×</span>
+    <span class="stat-label">Approximate gap between Black &amp; White household asset poverty rates</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-number">3 mo.</span>
+    <span class="stat-label">Standard threshold period used to define asset poverty</span>
+  </div>
+</div>
+
+<h2>How it is measured</h2>
+
+<p>The dominant <em>fill-the-gap</em> approach asks whether a household's net worth could sustain it at the poverty line for the threshold period. Three variants are common: <strong>net worth</strong> (all assets minus debts, including home equity); <strong>liquid assets</strong> (readily accessible financial assets only); and <strong>net worth excluding home equity</strong>, which strips out the illiquidity of owner-occupied housing. Each produces a different rate and a different picture of vulnerability. More recently, researchers have disaggregated net worth poverty into <em>asset poverty</em> (too few assets) and <em>debt poverty</em> (debts that overwhelm adequate assets)—a distinction that matters for both policy design and outcomes.</p>
+
+<h2>Relationship to income poverty measures</h2>
+
+<p>The Official Poverty Measure (OPM) and the Supplemental Poverty Measure (SPM) both define poverty through the lens of income and consumption: the OPM compares pre-tax cash income to a threshold; the SPM refines this by adding noncash benefits and subtracting necessary expenses like taxes and medical costs. Neither incorporates wealth. Asset poverty is conceptually complementary to both—it uses the same poverty-line thresholds as its reference point, but asks about the stock of resources rather than the flow.</p>
+
+<p>The overlap is real: households that are both income poor and asset poor face the deepest hardship, and Haveman and Wolff identify this group explicitly through a joint income/asset poverty measure. But the divergence matters equally. Many households above the OPM or SPM threshold hold little or no net worth—income-stable but financially fragile. Conversely, some income-poor households, particularly older homeowners, hold meaningful assets. Asset poverty captures a dimension of insecurity that income measures, however refined, are not designed to see.</p>
+
+<div class="pullquote">
+  "Asset poverty more than doubled the risk of food insecurity relative to debt poverty."
+  <br><span style="font-size:14px; font-style:normal; color:#5a5a52; font-family:'Source Serif 4', serif; font-weight:300;">— Gibson-Davis, Keister &amp; Gennetian (2023)</span>
+</div>
+
+<h2>What the research shows</h2>
+
+<p>Haveman and Wolff's work established several durable findings: asset poverty is widespread even among households above the income poverty line; it is substantially higher for minority households, particularly Black and Hispanic families; and it does not move in lockstep with the business cycle—periods of income growth do not automatically reduce asset gaps. The takeaway is that asset poverty has its own dynamics, shaped by structural barriers to wealth accumulation that income-focused policy leaves largely untouched.</p>
+
+<h2>Policy responses</h2>
+
+<p>Recognition that income transfers alone cannot close the asset gap has driven interest in asset-building approaches. The intellectual foundation is Sherraden's <em>Assets and the Poor</em> (1991), which argued that institutions—not individual behavior—determine whether low-income households accumulate wealth. Child Development Accounts (CDAs), seeded at birth and built over time, are the leading policy vehicle; experimental evidence from the SEED for Oklahoma Kids program shows effects on savings, parental expectations, and maternal mental health.</p>
+
+<hr class="divider">
+
+<div class="key-sources">
+  <h3>Key Sources</h3>
+  <ul>
+
+    <li>
+      <span class="source-tag">Haveman</span>
+      Haveman, R. &amp; Wolff, E.N. (2004). <a href="https://link.springer.com/article/10.1007/s10888-005-4387-y" target="_blank">The concept and measurement of asset poverty: Levels, trends and composition for the U.S., 1983–2001.</a> <em>Journal of Economic Inequality, 2</em>(2), 145–169.
+    </li>
+
+    <li>
+      <span class="source-tag">Haveman</span>
+      Rothwell, D. &amp; Haveman, R.H. (2013). <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2367057" target="_blank">Definition and measurement of asset poverty in Canada.</a> SSRN Working Paper.
+    </li>
+
+    <li>
+      <span class="source-tag">Gibson-Davis</span>
+      Gibson-Davis, C., Keister, L.A., Gennetian, L.A. &amp; Lowell, W. (2022). <a href="https://doi.org/10.1177/23780231221111672" target="_blank">Net worth poverty and child development.</a> <em>Socius, 8.</em>
+    </li>
+
+    <li>
+      <span class="source-tag">Gibson-Davis</span>
+      Gibson-Davis, C., Keister, L.A. &amp; Gennetian, L.A. (2024). <a href="https://www.sciencedirect.com/science/article/abs/pii/S0190740924006194" target="_blank">Net worth poverty and child well-being: Black–White differences.</a> <em>Children and Youth Services Review.</em>
+    </li>
+
+    <li>
+      <span class="source-tag">Gibson-Davis</span>
+      Gibson-Davis, C.M. (2025). <a href="https://onlinelibrary.wiley.com/doi/10.1111/jomf.70026" target="_blank">Children and wealth contexts in the United States: Differences by household type.</a> <em>Journal of Marriage and Family.</em>
+    </li>
+
+    <li>
+      <span class="source-tag">Sherraden</span>
+      Sherraden, M. (1991). <em>Assets and the Poor: A New American Welfare Policy.</em> M.E. Sharpe.
+    </li>
+
+    <li>
+      <span class="source-tag">Oliver &amp; Shapiro</span>
+      Oliver, M.L. &amp; Shapiro, T.M. (1995/2006). <em>Black Wealth/White Wealth: A New Perspective on Racial Inequality.</em> Routledge.
+    </li>
+
+    <li>
+      <span class="source-tag">ASPE</span>
+      U.S. DHHS Office of the Assistant Secretary for Planning and Evaluation. <a href="https://aspe.hhs.gov/reports/assets-poverty-public-policy-challenges-definition-measurement-0" target="_blank">Assets, poverty, and public policy: Challenges in definition and measurement.</a>
+    </li>
+
+    <li>
+      <span class="source-tag">NCCP</span>
+      National Center for Children in Poverty. <a href="https://www.nccp.org/publication/asset-poverty-and-debt-among-families-with-children/" target="_blank">Asset poverty and debt among families with children.</a>
+    </li>
+
+  </ul>
+</div>
+
+<hr class="footer-rule">
+<p class="footer-note">All statistics drawn from cited sources. Asset poverty rates vary by measure and time period; figures above refer to Haveman &amp; Wolff (2004) net worth estimates for 2001. For current estimates see the Urban Institute's Wealth Equity database.</p>
+
+</body>
+</html>
