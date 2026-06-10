@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Appreciating Assets by Race/Ethnicity</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #1B2F55;
+    --slate:  #3A5278;
+    --gold:   #C8922A;
+    --cream:  #FAF7F2;
+    --ltgray: #F0EDE8;
+    --midgray:#8A8A8A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--navy);
+    padding: 32px 16px;
+  }
+
+  .card {
+    max-width: 1280px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--ltgray);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(27,47,85,.08);
+  }
+
+  .hdr {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 24px 28px;
+  }
+  .hdr h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .hdr p {
+    font-size: 13px;
+    color: #cdd6e4;
+    margin-top: 5px;
+  }
+
+  .gold-rule { height: 3px; background: var(--gold); }
+
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+  }
+
+  /* Column widths */
+  col.c-group  { width: 130px; }
+  col.c-hh     { width: 80px; }
+  col.c-pct    { width: 80px; }
+  col.c-nonown { width: 110px; }
+  col.c-home   { width: 90px; }
+  col.c-mean   { width: 80px; }
+  col.c-a1, col.c-a2, col.c-a3 { width: 160px; }
+  col.c-med    { width: 90px; }
+
+  /* Column group headers */
+  thead tr.group-row th {
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 8px 12px 6px;
+    text-align: center;
+    border-right: 1px solid var(--slate);
+  }
+  thead tr.group-row th:first-child { text-align: left; border-right: none; }
+  thead tr.group-row th.span-right  { border-right: none; }
+
+  /* Column headers */
+  thead tr.col-row th {
+    background: var(--slate);
+    color: var(--cream);
+    font-size: 11px;
+    font-weight: 600;
+    text-align: right;
+    padding: 10px 12px;
+    letter-spacing: .02em;
+    line-height: 1.4;
+    vertical-align: bottom;
+    border-right: 1px solid rgba(255,255,255,.12);
+  }
+  thead tr.col-row th:first-child { text-align: left; }
+  thead tr.col-row th:last-child  { border-right: none; }
+  thead tr.col-row th span {
+    display: block;
+    font-weight: 400;
+    font-size: 9.5px;
+    opacity: .75;
+    margin-top: 2px;
+  }
+
+  /* Divider between column groups */
+  .grp-divider { border-left: 2px solid var(--gold) !important; }
+
+  /* Body rows */
+  tbody td {
+    padding: 11px 12px;
+    font-size: 13px;
+    text-align: right;
+    border-bottom: 1px solid var(--ltgray);
+    border-right: 1px solid var(--ltgray);
+    font-family: 'JetBrains Mono', monospace;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  tbody td:first-child {
+    text-align: left;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    border-right: none;
+  }
+  tbody td:last-child { border-right: none; }
+  tbody td.asset-name {
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  tbody td.grp-divider { border-left: 2px solid var(--gold); }
+
+  tbody tr:nth-child(even) td { background: var(--cream); }
+
+  /* Total row */
+  tbody tr.total td {
+    background: var(--navy);
+    color: var(--cream);
+    border-bottom: none;
+    border-right-color: var(--slate);
+    font-weight: 600;
+  }
+  tbody tr.total td:first-child { color: var(--gold); }
+  tbody tr.total td.grp-divider { border-left-color: var(--gold); }
+
+  /* Footnote */
+  .foot {
+    padding: 18px 28px;
+    font-size: 11.5px;
+    color: var(--midgray);
+    line-height: 1.65;
+    background: var(--ltgray);
+    border-top: 1px solid #ddd8d0;
+  }
+  .foot b { color: var(--slate); font-weight: 600; }
+  .foot p + p { margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="hdr">
+    <h1>Appreciating Assets by Race &amp; Ethnicity</h1>
+    <p>U.S. households &nbsp;&bull;&nbsp; SCF 2022 &nbsp;&bull;&nbsp; Corrected flag including primary residence &amp; cash-value life insurance</p>
+  </div>
+  <div class="gold-rule"></div>
+
+  <div class="table-wrap">
+    <table>
+      <colgroup>
+        <col class="c-group">
+        <col class="c-hh">
+        <col class="c-pct">
+        <col class="c-nonown">
+        <col class="c-home">
+        <col class="c-mean">
+        <col class="c-a1">
+        <col class="c-a2">
+        <col class="c-a3">
+        <col class="c-med">
+      </colgroup>
+      <thead>
+        <tr class="group-row">
+          <th rowspan="2" style="vertical-align:bottom;padding-bottom:10px;">Race / Ethnicity</th>
+          <th colspan="4" style="text-align:center;">Ownership</th>
+          <th colspan="4" class="grp-divider" style="text-align:center;">Asset mix</th>
+          <th class="grp-divider span-right" style="text-align:center;">Value</th>
+        </tr>
+        <tr class="col-row">
+          <th>Households</th>
+          <th>% with appr. assets</th>
+          <th>HH without appr. assets</th>
+          <th>% home is only appr. asset</th>
+          <th class="grp-divider">Mean # of types<span>among owners</span></th>
+          <th>#1 most common<span>% of group</span></th>
+          <th>#2 most common<span>% of group</span></th>
+          <th>#3 most common<span>% of group</span></th>
+          <th class="grp-divider">Median value<span>among owners</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>White</td>
+          <td>87.7M</td><td>88.6%</td><td>10.0M (11.4%)</td><td>11.2%</td>
+          <td class="grp-divider">2.81</td>
+          <td class="asset-name">Primary residence (73.1%)</td>
+          <td class="asset-name">Retirement accts (58.9%)</td>
+          <td class="asset-name">Securities (36.0%)</td>
+          <td class="grp-divider">$400,000</td>
+        </tr>
+        <tr>
+          <td>Black</td>
+          <td>15.1M</td><td>71.0%</td><td>4.4M (29.0%)</td><td>14.4%</td>
+          <td class="grp-divider">2.17</td>
+          <td class="asset-name">Primary residence (46.3%)</td>
+          <td class="asset-name">Retirement accts (31.6%)</td>
+          <td class="asset-name">Cash-value life ins (20.7%)</td>
+          <td class="grp-divider">$190,000</td>
+        </tr>
+        <tr>
+          <td>Hispanic / Latino</td>
+          <td>12.3M</td><td>65.9%</td><td>4.2M (34.1%)</td><td>23.4%</td>
+          <td class="grp-divider">1.92</td>
+          <td class="asset-name">Primary residence (51.1%)</td>
+          <td class="asset-name">Retirement accts (26.6%)</td>
+          <td class="asset-name">Securities (11.2%)</td>
+          <td class="grp-divider">$260,000</td>
+        </tr>
+        <tr>
+          <td>All other races</td>
+          <td>16.2M</td><td>81.7%</td><td>3.0M (18.3%)</td><td>8.7%</td>
+          <td class="grp-divider">2.56</td>
+          <td class="asset-name">Primary residence (57.3%)</td>
+          <td class="asset-name">Retirement accts (51.1%)</td>
+          <td class="asset-name">Securities (30.7%)</td>
+          <td class="grp-divider">$341,570</td>
+        </tr>
+        <tr class="total">
+          <td>All households</td>
+          <td>131.3M</td><td>83.6%</td><td>21.6M (16.4%)</td><td>12.4%</td>
+          <td class="grp-divider">2.65</td>
+          <td class="asset-name">Primary residence (66.1%)</td>
+          <td class="asset-name">Retirement accts (51.8%)</td>
+          <td class="asset-name">Securities (30.7%)</td>
+          <td class="grp-divider">$353,000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="foot">
+    <p><b>Appreciating assets</b> = ownership of any of: retirement accounts (401k/thrift, IRA),
+    business equity, future pension, securities (mutual funds, savings bonds, stocks, bonds),
+    other real property, other financial assets, cash-value life insurance, or primary residence
+    (9 categories total).</p>
+    <p><b>HH without appreciating assets</b>: percent shown is that group's share of its own household universe.
+    <b>% home is only appreciating asset</b>: share of all households (incl. non-owners) whose sole
+    appreciating holding is a primary residence — a measure of wealth concentration risk.
+    <b>Mean # of types</b> counts distinct categories held (unconditional means: White 2.49, Black 1.54,
+    Hispanic 1.26, Other 2.09, All 2.22). <b>Median value</b>: sum of all appreciating-asset dollar values
+    among owning households. Weighted to the ~131.3M household universe (WGT summed across all 5 implicates).</p>
+    <p>Source: Federal Reserve, Survey of Consumer Finances 2022.</p>
+  </div>
+
+</div>
+</body>
+</html>
