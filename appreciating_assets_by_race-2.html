@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Appreciating Assets by Race/Ethnicity</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2F55; --slate:#3A5278; --gold:#C8922A;
+    --cream:#FAF7F2; --ltgray:#F0EDE8; --midgray:#8A8A8A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--cream);font-family:'Source Sans 3',sans-serif;color:var(--navy);padding:32px;}
+  .card{max-width:880px;margin:0 auto;background:#fff;border:1px solid var(--ltgray);
+        border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(27,47,85,.06);}
+  .hdr{background:var(--navy);color:var(--cream);padding:22px 28px;}
+  .hdr h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.2;}
+  .hdr p{font-size:13px;color:#cdd6e4;margin-top:4px;}
+  .rule{height:3px;background:var(--gold);}
+  table{width:100%;border-collapse:collapse;}
+  thead th{background:var(--slate);color:var(--cream);font-size:12px;font-weight:600;
+           text-align:right;padding:12px 16px;letter-spacing:.02em;}
+  thead th:first-child{text-align:left;}
+  tbody td{padding:12px 16px;font-size:14px;text-align:right;border-bottom:1px solid var(--ltgray);
+           font-family:'JetBrains Mono',monospace;}
+  tbody td:first-child{text-align:left;font-family:'Source Sans 3',sans-serif;font-weight:600;}
+  tbody tr:nth-child(even){background:var(--cream);}
+  tbody tr.total{background:var(--navy);}
+  tbody tr.total td{color:var(--cream);border-bottom:none;font-weight:600;}
+  tbody tr.total td:first-child{color:var(--gold);}
+  .foot{padding:16px 28px;font-size:11.5px;color:var(--midgray);line-height:1.5;background:var(--ltgray);}
+  .foot b{color:var(--slate);font-weight:600;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="hdr">
+      <h1>Appreciating Assets by Race &amp; Ethnicity</h1>
+      <p>U.S. households, SCF 2022 &nbsp;&bull;&nbsp; corrected flag (incl. primary residence &amp; cash-value life insurance)</p>
+    </div>
+    <div class="rule"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Race / Ethnicity</th>
+          <th>Households</th>
+          <th>% with appreciating assets</th>
+          <th>HH without appreciating assets</th>
+          <th>% home is only appreciating asset</th>
+          <th>Mean&nbsp;# of asset types<br><span style="font-weight:400;font-size:10px;">(among owners)</span></th>
+          <th>Median value<br><span style="font-weight:400;font-size:10px;">(among owners)</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>White</td><td>87.7M</td><td>88.6%</td><td>10.0M (11.4%)</td><td>11.2%</td><td>2.81</td><td>$400,000</td></tr>
+        <tr><td>Black</td><td>15.1M</td><td>71.0%</td><td>4.4M (29.0%)</td><td>14.4%</td><td>2.17</td><td>$190,000</td></tr>
+        <tr><td>Hispanic / Latino</td><td>12.3M</td><td>65.9%</td><td>4.2M (34.1%)</td><td>23.4%</td><td>1.92</td><td>$260,000</td></tr>
+        <tr><td>All other races</td><td>16.2M</td><td>81.7%</td><td>3.0M (18.3%)</td><td>8.7%</td><td>2.56</td><td>$341,570</td></tr>
+        <tr class="total"><td>All households</td><td>131.3M</td><td>83.6%</td><td>21.6M (16.4%)</td><td>12.4%</td><td>2.65</td><td>$353,000</td></tr>
+      </tbody>
+    </table>
+    <div class="foot">
+      <b>Appreciating assets</b> = ownership of any of: retirement (THRIFT, IRAKH), business equity,
+      future pension, securities (mutual funds, savings bonds, stocks, bonds), other real property,
+      other financial assets, cash-value life insurance, or primary residence.
+      <b>HH without appreciating assets</b> = households owning none of the nine categories above;
+      percent shown is share of that racial group's total households.
+      <b>% home is only appreciating asset</b> = share of all households (including non-owners) for whom
+      a primary residence is their sole appreciating holding — a measure of wealth concentration risk.
+      <b>Mean # of asset types</b> counts how many of the nine categories a household holds, among
+      households owning at least one (unconditional means: White 2.49, Black 1.54, Hispanic 1.26,
+      Other 2.09, All 2.22). <b>Median value</b> is the summed dollar value of those holdings among owners.
+      Weighted to the ~131.3M household universe (WGT summed across all five implicates).
+      Source: Federal Reserve, Survey of Consumer Finances 2022.
+    </div>
+  </div>
+</body>
+</html>
